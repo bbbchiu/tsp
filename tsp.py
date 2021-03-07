@@ -15,9 +15,9 @@ class TSP:
 
         self.init_map()
         self.show_init()
-        self.walk()
-        #self.show_result()
-        self.visual_w()
+        print()
+        self.nearest_neighbor_path()
+        self.visual_arr(self.walk_arr.copy())
         print("start travel~~~")
         cost = 0
         self.travel_arr.append(self.initp)
@@ -25,7 +25,7 @@ class TSP:
         print()
         print()
         print("show min path")
-        self.visual_m()
+        self.visual_arr(self.min_arr.copy())
         print("min cost: ",self.min_cost)
 
     def init_map(self):
@@ -47,50 +47,23 @@ class TSP:
     def get_cost(self,x,y):
             return math.sqrt((x[0]-y[0])*(x[0]-y[0])+(x[1]-y[1])*(x[1]-y[1]))
 
-    def walk(self):
-        # initialize
-        self.walk_arr.append(self.initp)
-        self.map_arr.remove(self.initp)
-
-        # travel
-        print("get min path~~~")
-        self.min_path(self.map_arr.copy())
-
-
-    def show_result(self):
-        print("Result: ")
-        print(self.walk_arr)
-        print("Remain arr: ")
-        print(self.map_arr)
-
-    def visual_w(self):
+    def visual_arr(self,arr):
         mm = np.zeros((self.map_size,self.map_size))
         print("Start Visualization~~~")
         cnt = 1
-        for i in self.walk_arr:
+        for i in arr:
             mm[i[0]][i[1]] = cnt
             cnt += 1
         print(mm)            
 
-    def visual_t(self):
-        mm = np.zeros((self.map_size,self.map_size))
-        print("Start Visualization~~~")
-        cnt = 1
-        for i in self.travel_arr:
-            mm[i[0]][i[1]] = cnt
-            cnt += 1
-        print(mm)  
-        
-    def visual_m(self):
-        mm = np.zeros((self.map_size,self.map_size))
-        print("Start Visualization~~~")
-        cnt = 1
-        for i in self.min_arr:
-            mm[i[0]][i[1]] = cnt
-            cnt += 1
-        print(mm)  
+    def nearest_neighbor_path(self):
+        # initialize
+        self.walk_arr.append(self.initp)
+        self.map_arr.remove(self.initp)
+        m_arr = self.map_arr.copy()
 
-    def min_path(self,m_arr):
+        # travel
+        print("get min path~~~")
         spot = self.initp
         cost = 0
 
@@ -119,28 +92,8 @@ class TSP:
 
 
     def travel_path(self,m_arr,spot,cost):
-#        print("m_arr: ",m_arr)
-#        print("spot: ",spot)
-#        print("cost: ",cost)
-#        print("travel_arr: ",self.travel_arr)
-#        print()
-#        if(len(m_arr) == 0 or cost > self.min_cost):
-#            if(len(m_arr) == 0 and cost <= self.min_cost and len(self.travel_arr) == len(self.walk_arr)):
-#                print("cost: ",cost)
-#                self.visual_t()
-#                self.min_cost == cost
-#                self.min_arr = self.travel_arr.copy()
-#                self.travel_arr = []
-#                self.travel_arr.append(self.initp)
-#            elif(len(self.travel_arr) > 1):
-#                pass
-#                print("pop: ",self.travel_arr.pop())
-#            else:
-#                pass
-#            return 0
         if(len(m_arr) == 0):
             if(cost <= self.min_cost):
-                #self.visual_t()
                 self.min_cost = cost
                 self.min_arr = self.travel_arr.copy()
             
